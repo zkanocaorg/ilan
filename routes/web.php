@@ -36,3 +36,7 @@ Route::get('/listing/{listingID}', function ($listingID) {
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

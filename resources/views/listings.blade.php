@@ -4,85 +4,75 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <title>{{$heading}} - {{ config('app.name')}}</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link href="resources/css/fontawesome-free-6.2.1/css/fontawesome.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-    </style>
+    @vite(['resources/js/app.js'])
 </head>
-<body class="antialiased">
+<body>
 <h1 class="text-center">Title</h1>
 @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            @auth
-                <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-            @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+        @auth
+            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+        @else
+            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
-
-    <div class="container">
-
-        <div class="row">
-            <p><i class="fa fa-search"></i></p>
-            <input class="form-control form-control-lg" type="text" placeholder="İlan ara"
-                   aria-label="ilanlarda ara">
-        </div>
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+            @endif
+        @endauth
     </div>
+@endif
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
-                <p>Kategoriler</p>
-            </div>
-            <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
-                <h2>{{$heading}} </h2>
-                <div class="container-fluid ">
-                    <div class="row" data-masonry='{"percentPosition": true }'>
-                        @foreach($listings as $listing)
+<div class="container-fluid search-box">
+    <div class="container">
+        <input class="form-control form-control-lg" type="text" placeholder="İlan ara"
+               aria-label="ilanlarda ara">
+    </div>
+</div>
 
-                                <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
+            <p>Kategoriler</p>
+        </div>
+        <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+            <h2>{{$heading}} </h2>
+            <div class="container-fluid ">
+                <div class="row" data-masonry='{"percentPosition": true }'>
+                    @foreach($listings as $listing)
 
-                                    <div class="card" id="listing-{{$listing['id']}}">
-                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             role="img" aria-label="Placeholder: Image cap"
-                                             preserveAspectRatio="xMidYMid slice"
-                                             focusable="false">
-                                            <rect width="100%" height="100%" fill="#868e96"></rect>
-                                            <text x="0%" y="50%" fill="#dee2e6" dy=".2em">{{$listing['title']}}</text>
-                                        </svg>
-                                        <div class="card-body">
+                        <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
 
-                                            <p><b>{{$listing['price']}}</b></p>
-                                            <p>{{$listing['title']}}</p>
-                                            <a href="/listing/{{$listing['id']}}" class="btn btn-primary">İncele</a>
+                            <div class="card" id="listing-{{$listing['id']}}">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     role="img" aria-label="Placeholder: Image cap"
+                                     preserveAspectRatio="xMidYMid slice"
+                                     focusable="false">
+                                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                                    <text x="0%" y="50%" fill="#dee2e6" dy=".2em">{{$listing['title']}}</text>
+                                </svg>
+                                <div class="card-body">
 
-                                        </div>
-                                    </div>
+                                    <p><b>{{$listing['price']}}</b></p>
+                                    <p>{{$listing['title']}}</p>
+                                    <a href="/listing/{{$listing['id']}}" class="btn btn-primary">İncele</a>
+
                                 </div>
-                        @endforeach
-                    </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-            crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 </body>
 </html>
