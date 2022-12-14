@@ -10,64 +10,86 @@
     @vite(['resources/js/app.js'])
 </head>
 <body>
-<h1 class="text-center">Title</h1>
-@if (Route::has('login'))
-    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-        @auth
-            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-        @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-            @endif
-        @endauth
-    </div>
-@endif
-
-<div class="container-fluid search-box">
+<div class="p-4 text-bg-dark">
     <div class="container">
-        <input class="form-control form-control-lg" type="text" placeholder="İlan ara"
-               aria-label="ilanlarda ara">
-    </div>
-</div>
+        <div class="row">
+            <div class="col-md-8 col-lg-9 col-sm-6 col-xs-12">
+                <h4>{{config('app.name')}}</h4>
+            </div>
+            <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
-            <p>Kategoriler</p>
-        </div>
-        <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
-            <h2>{{$heading}} </h2>
-            <div class="container-fluid ">
-                <div class="row" data-masonry='{"percentPosition": true }'>
-                    @foreach($listings as $listing)
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/my-account') }}" class="btn-sm btn btn-primary">Hesabım</a>
+                    @else
+                        <a href="{{ route('login') }}" class="">Oturum Aç</a>
 
-                        <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
-
-                            <div class="card" id="listing-{{$listing['id']}}">
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     role="img" aria-label="Placeholder: Image cap"
-                                     preserveAspectRatio="xMidYMid slice"
-                                     focusable="false">
-                                    <rect width="100%" height="100%" fill="#868e96"></rect>
-                                    <text x="0%" y="50%" fill="#dee2e6" dy=".2em">{{$listing['title']}}</text>
-                                </svg>
-                                <div class="card-body">
-
-                                    <p><b>{{$listing['price']}}</b></p>
-                                    <p>{{$listing['title']}}</p>
-                                    <a href="/listing/{{$listing['id']}}" class="btn btn-primary">İncele</a>
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}"
+                               class="ml-4 ">Kaydol</a>
+                        @endif
+                    @endauth
+                @endif
+                    <a href="{{ url('/new-listing') }}" class="btn-sm btn btn-success">Ücretsiz İlan Ver</a>
             </div>
         </div>
     </div>
+</div>
+<div class="container-fluid search-box p-2 mb-2 bg-warning">
+    <div class="container">
+        <div class="row">
+            <input class="form-control form-control-lg" type="text" placeholder="İlan ara"
+                   aria-label="ilanlarda ara">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12 mx-0">
+            <p class="">Kategoriler</p>
+        </div>
+        <div class="col-md-9 col-lg-9 col-sm-6 col-xs-12">
+            <div class="p-1 mx-0">
+                <h4>{{$heading}} </h4>
+            </div>
+            <div class="container ">
+                @unless(count($listings) == 0)
+                    <div class="row" data-masonry='{"percentPosition": true }'>
+                        @foreach($listings as $listing)
+
+                            <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+                                <div class="card" id="listing-{{$listing['id']}}">
+                                    <a href="/listing/{{$listing['id']}}">
+                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             role="img" aria-label="Placeholder: Image cap"
+                                             preserveAspectRatio="xMidYMid slice"
+                                             focusable="false">
+                                            <rect width="100%" height="100%" fill="#868e96"></rect>
+                                            <text x="0%" y="50%" fill="#dee2e6"
+                                                  dy=".2em">{{$listing['title']}}</text>
+                                        </svg>
+                                    </a>
+                                    <a href="/listing/{{$listing['id']}}"><p class="text-white">
+                                            <b>{{$listing['price']}}</b>
+                                        </p></a>
+                                    <a href="/listing/{{$listing['id']}}"><p
+                                            class="text-white">{{$listing['title']}}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <h3>Geçerli ilan bulunamadı</h3>
+                @endunless
+            </div>
+
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

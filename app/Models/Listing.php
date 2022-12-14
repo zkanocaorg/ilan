@@ -16,7 +16,7 @@ class Listing extends Model
                 'id' => 1,
                 'title' => 'Sahibinden Kazasız Boyasız',
                 'description' => 'Çok temiz, sigara içilmemiş, kaza, boya, hasar yok.',
-                'price' => '980.000'
+                'price' => '980.000 TL'
             ],
             [
                 'id' => 2,
@@ -28,7 +28,7 @@ class Listing extends Model
                 'id' => 3,
                 'title' => 'Sahibinden Kazasız Boyasız',
                 'description' => 'Çok temiz, sigara içilmemiş, kaza, boya, hasar yok.',
-                'price' => '980.000'
+                'price' => '980.000 TL'
             ],
             [
                 'id' => 4,
@@ -40,7 +40,7 @@ class Listing extends Model
                 'id' => 5,
                 'title' => 'Sahibinden Kazasız Boyasız',
                 'description' => 'Çok temiz, sigara içilmemiş, kaza, boya, hasar yok.',
-                'price' => '980.000'
+                'price' => '980.000 TL'
             ],
             [
                 'id' => 6,
@@ -52,7 +52,7 @@ class Listing extends Model
                 'id' => 7,
                 'title' => 'Sahibinden Kazasız Boyasız',
                 'description' => 'Çok temiz, sigara içilmemiş, kaza, boya, hasar yok.',
-                'price' => '980.000'
+                'price' => '980.000 TL'
             ],
             [
                 'id' => 8,

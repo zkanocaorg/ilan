@@ -29,12 +29,18 @@ Route::get('/categories', function () {
     return view('categories');
 });
 
+Route::get('/login', function () {
+    return view('auth.login');
+});
+
+Route::get('/register', function () {
+    return view('auth.register');
+});
+
 
 Route::get('/listing/{listingID}', function ($listingID) {
     return view('listing', ['listing' => Listing::find($listingID)]);
 });
-
-
 
 
 Auth::routes();
