@@ -7,6 +7,54 @@
 
     <title>{{$heading}} - {{ config('app.name')}}</title>
 
+    <style>
+        .item {
+            cursor: pointer;
+            -webkit-backface-visibility: hidden;
+
+        &
+        :hover > .overflow > .content-art {
+            transform: translateY(0) translateZ(0);
+        }
+
+        }
+
+        .overflow {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-art {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+            color: #fff;
+            font-weight: 700 !important;
+            text-align: center;
+            text-shadow: 0 1px 1px #000;
+            padding: 10px 15px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: auto;
+            z-index: 100;
+            -webkit-backface-visibility: hidden;
+            transform: translateY(100%) translateZ(0);
+            transition: transform 450ms ease-out;
+        }
+
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        *,
+        *:after,
+        *:before {
+            box-sizing: border-box;
+        }
+    </style>
     @vite(['resources/js/app.js'])
 </head>
 <body>
@@ -31,7 +79,7 @@
                         @endif
                     @endauth
                 @endif
-                    <a href="{{ url('/new-listing') }}" class="btn-sm btn btn-success">Ücretsiz İlan Ver</a>
+                <a href="{{ url('/new-listing') }}" class="btn-sm btn btn-success">Ücretsiz İlan Ver</a>
             </div>
         </div>
     </div>
@@ -54,38 +102,28 @@
             <div class="p-1 mx-0">
                 <h4>{{$heading}} </h4>
             </div>
-            <div class="container ">
-                @unless(count($listings) == 0)
-                    <div class="row" data-masonry='{"percentPosition": true }'>
-                        @foreach($listings as $listing)
 
-                            <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
-                                <div class="card" id="listing-{{$listing['id']}}">
-                                    <a href="/listing/{{$listing['id']}}">
-                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             role="img" aria-label="Placeholder: Image cap"
-                                             preserveAspectRatio="xMidYMid slice"
-                                             focusable="false">
-                                            <rect width="100%" height="100%" fill="#868e96"></rect>
-                                            <text x="0%" y="50%" fill="#dee2e6"
-                                                  dy=".2em">{{$listing['title']}}</text>
-                                        </svg>
-                                    </a>
-                                    <a href="/listing/{{$listing['id']}}"><p class="text-white">
-                                            <b>{{$listing['price']}}</b>
-                                        </p></a>
-                                    <a href="/listing/{{$listing['id']}}"><p
-                                            class="text-white">{{$listing['title']}}</p>
-                                    </a>
+
+            <div class="container-fluid">
+                <div id="content" class="row">
+                    @unless(count($listings) == 0)
+                        @foreach($listings as $listing)
+                            <div class="col-md-6 col-lg-4 col-xs-6 item nopadding">
+                                <div class="overflow">
+                                    <div class="content-art">
+                                        <h4>{{$listing['title']}}</h4>
+                                    </div>
+                                    <img src="{{$listing['picture']}}" alt="{{$listing['title']}}"
+                                         class="img-responsive">
                                 </div>
                             </div>
                         @endforeach
-                    </div>
-                @else
-                    <h3>Geçerli ilan bulunamadı</h3>
-                @endunless
+                    @else
+                        <h3>Geçerli ilan bulunamadı</h3>
+                    @endunless
+                </div>
             </div>
+
 
         </div>
     </div>
@@ -96,5 +134,45 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.1.0/velocity.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+
+        $(window).load(function () {
+            var $items = $('.item');
+            $items.on({
+                mousemove: function (e) {
+                    var $that = $(this);
+                    $that.find('.overflow > img').velocity({
+                        translateZ: 0,
+                        translateX: Math.floor((e.pageX - $that.offset().left) - ($that.width() / 2)),
+                        translateY: Math.floor((e.pageY - $that.offset().top) - ($that.height() / 2)),
+                        scale: '2'
+                    }, {
+                        duration: 400,
+                        easing: 'linear',
+                        queue: false
+                    });
+                },
+                mouseleave: function () {
+                    $(this).find('.overflow > img').velocity({
+                        translateZ: 0,
+                        translateX: 0,
+                        translateY: 0,
+                        scale: '1'
+                    }, {
+                        duration: 1000,
+                        easing: 'easeOutSine',
+                        queue: false
+                    });
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
